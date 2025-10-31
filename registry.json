@@ -1,69 +1,60 @@
 {
-  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
-  "name": "io.akerBP.enterprise/authorized-mcp-servers",
-  "description": "AkerBP Approved MCP Servers Whitelist - Only these servers are authorized for use",
-  "title": "AkerBP MCP Server Whitelist",
-  "version": "1.0.0",
-  "repository": {
-    "url": "https://github.com/AkerBP/mcp-registry",
-    "source": "github",
-    "id": "AkerBP/mcp-registry"
-  },
-  "packages": [
+  "servers": [
     {
-      "registryType": "npm",
-      "registryBaseUrl": "https://registry.npmjs.org",
-      "identifier": "@modelcontextprotocol/server-github",
-      "version": "0.6.0",
-      "transport": {
-        "type": "stdio"
-      },
       "_meta": {
-        "approvedBy": "IT-Security",
-        "approvalDate": "2025-10-31",
-        "purpose": "GitHub repository management and issue tracking",
-        "accessLevel": "authorized"
+        "io.modelcontextprotocol.registry/official": {
+          "status": "active",
+          "publishedAt": "2025-09-01T00:00:00Z",
+          "isLatest": true
+        }
+      },
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+        "name": "io.github.modelcontextprotocol/server-github",
+        "description": "Official GitHub MCP server for repository management, issues, and pull requests.",
+        "version": "1.0.0",
+        "packages": [
+          {
+            "registryType": "npm",
+            "identifier": "@modelcontextprotocol/server-github",
+            "version": "1.0.0",
+            "transport": { "type": "stdio" }
+          }
+        ],
+        "remotes": [
+          {
+            "type": "http",
+            "url": "https://api.githubcopilot.com/mcp/"
+          }
+        ]
       }
     },
     {
-      "registryType": "npm",
-      "registryBaseUrl": "https://registry.npmjs.org",
-      "identifier": "@modelcontextprotocol/server-filesystem",
-      "version": "0.6.0",
-      "transport": {
-        "type": "stdio"
-      },
       "_meta": {
-        "approvedBy": "IT-Security",
-        "approvalDate": "2025-10-31",
-        "purpose": "File system access to /akerbp/shared directories",
-        "accessLevel": "authorized"
-      }
-    },
-    {
-      "registryType": "npm",
-      "registryBaseUrl": "https://registry.npmjs.org",
-      "identifier": "markitdown-mcp-npx",
-      "version": "0.0.1",
-      "transport": {
-        "type": "stdio"
+        "io.modelcontextprotocol.registry/official": {
+          "status": "active",
+          "publishedAt": "2025-09-01T00:00:00Z",
+          "isLatest": true
+        }
       },
-      "_meta": {
-        "approvedBy": "IT-Security",
-        "approvalDate": "2025-10-31",
-        "purpose": "Document conversion to Markdown",
-        "accessLevel": "authorized"
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+        "name": "io.github.modelcontextprotocol/server-filesystem",
+        "description": "MCP server for secure file system operations with configurable access controls.",
+        "version": "1.0.0",
+        "packages": [
+          {
+            "registryType": "npm",
+            "identifier": "@modelcontextprotocol/server-filesystem",
+            "version": "1.0.0",
+            "transport": { "type": "stdio" }
+          }
+        ]
       }
     }
   ],
-  "_meta": {
-    "io.modelcontextprotocol.registry/publisher-provided": {
-      "organization": "AkerBP",
-      "registryType": "whitelist",
-      "description": "Curated list of approved MCP servers for AkerBP organization",
-      "securityLevel": "enterprise",
-      "maintenanceOwner": "IT-Security-Team",
-      "lastUpdated": "2025-10-31T00:00:00Z"
-    }
+  "metadata": {
+    "count": 2,
+    "nextCursor": null
   }
 }
