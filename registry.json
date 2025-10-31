@@ -1,4 +1,10 @@
 {
+  "metadata": {
+    "version": "1.0",
+    "formatVersion": "2024-01-01",
+    "count": 2,
+    "nextCursor": null
+  },
   "servers": [
     {
       "_meta": {
@@ -9,7 +15,7 @@
         }
       },
       "server": {
-        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2024-11-05/server.schema.json",
         "name": "io.github.modelcontextprotocol/server-github",
         "description": "Official GitHub MCP server for repository management, issues, and pull requests.",
         "version": "1.0.0",
@@ -24,7 +30,7 @@
         "remotes": [
           {
             "type": "http",
-            "url": "https://api.githubcopilot.com/mcp/"
+            "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/github"
           }
         ]
       }
@@ -38,7 +44,7 @@
         }
       },
       "server": {
-        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2024-11-05/server.schema.json",
         "name": "io.github.modelcontextprotocol/server-filesystem",
         "description": "MCP server for secure file system operations with configurable access controls.",
         "version": "1.0.0",
@@ -49,12 +55,14 @@
             "version": "1.0.0",
             "transport": { "type": "stdio" }
           }
+        ],
+        "remotes": [
+          {
+            "type": "http",
+            "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/filesystem"
+          }
         ]
       }
     }
-  ],
-  "metadata": {
-    "count": 2,
-    "nextCursor": null
-  }
+  ]
 }
