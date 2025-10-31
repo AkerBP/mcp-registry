@@ -141,10 +141,5 @@ Brief explanation of why this server is needed
 How will this server be used within AkerBP?
 ```
 
-
-
----
-
 **Last Updated**: 2025-10-31  
-**Maintained By**: AkerBP IT Security Team  
-**Questions?** Create an issue in this repository
+
