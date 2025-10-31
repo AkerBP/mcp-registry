@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
-  "name": "io.akerBP.enterprise/registry-config",
-  "description": "AkerBP Enterprise MCP Server Registry Configuration",
-  "title": "AkerBP MCP Registry",
+  "name": "io.akerBP.enterprise/authorized-mcp-servers",
+  "description": "AkerBP Approved MCP Servers Whitelist - Only these servers are authorized for use",
+  "title": "AkerBP MCP Server Whitelist",
   "version": "1.0.0",
   "repository": {
     "url": "https://github.com/AkerBP/mcp-registry",
@@ -17,6 +17,12 @@
       "version": "0.6.0",
       "transport": {
         "type": "stdio"
+      },
+      "_meta": {
+        "approvedBy": "IT-Security",
+        "approvalDate": "2025-10-31",
+        "purpose": "GitHub repository management and issue tracking",
+        "accessLevel": "authorized"
       }
     },
     {
@@ -26,6 +32,12 @@
       "version": "0.6.0",
       "transport": {
         "type": "stdio"
+      },
+      "_meta": {
+        "approvedBy": "IT-Security",
+        "approvalDate": "2025-10-31",
+        "purpose": "File system access to /akerbp/shared directories",
+        "accessLevel": "authorized"
       }
     },
     {
@@ -35,42 +47,23 @@
       "version": "0.0.1",
       "transport": {
         "type": "stdio"
+      },
+      "_meta": {
+        "approvedBy": "IT-Security",
+        "approvalDate": "2025-10-31",
+        "purpose": "Document conversion to Markdown",
+        "accessLevel": "authorized"
       }
-    }
-  ],
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/github/index.js",
-      "headers": [
-        {
-          "name": "Authorization",
-          "description": "GitHub Personal Access Token",
-          "isRequired": true,
-          "isSecret": true
-        }
-      ]
-    },
-    {
-      "type": "streamable-http",
-      "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/filesystem/index.js",
-      "headers": []
     }
   ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
-      "tool": "akerbp-enterprise-registry",
-      "version": "1.0.0",
-      "build_info": {
-        "maintainer": "AkerBP IT Department",
-        "contact": "it-support@akerbp.com", 
-        "mcp_gateway": "mcp.akerbp.com",
-        "sso_integration": "AkerBP Azure AD",
-        "timestamp": "2025-10-31T00:00:00Z",
-        "environment": "akerbp-production",
-        "compliance": "ISO-27001, SOC-2",
-        "data_residency": "Norway/EU"
-      }
+      "organization": "AkerBP",
+      "registryType": "whitelist",
+      "description": "Curated list of approved MCP servers for AkerBP organization",
+      "securityLevel": "enterprise",
+      "maintenanceOwner": "IT-Security-Team",
+      "lastUpdated": "2025-10-31T00:00:00Z"
     }
   }
 }
