@@ -1,15 +1,86 @@
 {
-  "$schema": "https://modelcontextprotocol.io/schemas/registry.schema.json",
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+  "name": "io.akerBP.enterprise/registry-config",
+  "description": "AkerBP Enterprise MCP Server Registry Configuration",
+  "title": "AkerBP MCP Registry",
   "version": "1.0.0",
-  "servers": [
+  "repository": {
+    "url": "https://github.com/AkerBP/mcp-registry",
+    "source": "github",
+    "id": "AkerBP/mcp-registry"
+  },
+  "packages": [
     {
-      "id": "markdownify-mcp",
-      "name": "Markdownify MCP Server",
-      "description": "Convert documents & web content to Markdown format via MCP.",
-      "url": "https://raw.githubusercontent.com/AkerBP/markdownify-mcp/main/mcp.json",
-      "contact": {
-        "email": "frederic.dumont@AkerBP.com"
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@modelcontextprotocol/server-filesystem",
+      "version": "0.6.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "valueHint": "path",
+          "description": "Path to access (can be repeated for multiple paths)",
+          "isRequired": true,
+          "isRepeated": true
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "LOG_LEVEL",
+          "description": "Logging level (debug, info, warn, error)",
+          "default": "info"
+        }
+      ]
+    },
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@microsoft/markitdown-mcp",
+      "version": "0.1.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "named",
+          "name": "--port",
+          "description": "Port number for the server",
+          "default": "3000",
+          "format": "number"
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "MARKITDOWN_LOG_LEVEL",
+          "description": "Logging level for Markitdown operations",
+          "default": "info",
+          "choices": ["debug", "info", "warn", "error"]
+        },
+        {
+          "name": "MARKITDOWN_MAX_FILE_SIZE",
+          "description": "Maximum file size to process (in MB)",
+          "default": "10",
+          "format": "number"
+        }
+      ]
+    }
+  ],
+  "remotes": [],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "tool": "enterprise-registry",
+      "version": "1.0.0",
+      "build_info": {
+        "maintainer": "AkerBP IT Department",
+        "contact": "admin@AkerBP.com",
+        "timestamp": "2025-10-31T00:00:00Z",
+        "environment": "enterprise"
       }
     }
-  ]
+  }
 }
