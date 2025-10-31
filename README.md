@@ -1,2 +1,2 @@
-# AkerBP-Allowed-MCP-Server-registry
+# AkerBP MCP registry
 Allow list of MCP servers inside AkerBP organization
