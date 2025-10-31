@@ -13,73 +13,63 @@
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
-      "identifier": "@modelcontextprotocol/server-filesystem",
+      "identifier": "@modelcontextprotocol/server-github",
       "version": "0.6.0",
-      "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
-      },
-      "packageArguments": [
-        {
-          "type": "positional",
-          "valueHint": "path",
-          "description": "Path to access (can be repeated for multiple paths)",
-          "isRequired": true,
-          "isRepeated": true
-        }
-      ],
-      "environmentVariables": [
-        {
-          "name": "LOG_LEVEL",
-          "description": "Logging level (debug, info, warn, error)",
-          "default": "info"
-        }
-      ]
+      }
     },
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
-      "identifier": "@microsoft/markitdown-mcp",
-      "version": "0.1.0",
-      "runtimeHint": "npx",
+      "identifier": "@modelcontextprotocol/server-filesystem",
+      "version": "0.6.0",
       "transport": {
         "type": "stdio"
-      },
-      "packageArguments": [
-        {
-          "type": "named",
-          "name": "--port",
-          "description": "Port number for the server",
-          "default": "3000",
-          "format": "number"
-        }
-      ],
-      "environmentVariables": [
-        {
-          "name": "MARKITDOWN_LOG_LEVEL",
-          "description": "Logging level for Markitdown operations",
-          "default": "info",
-          "choices": ["debug", "info", "warn", "error"]
-        },
-        {
-          "name": "MARKITDOWN_MAX_FILE_SIZE",
-          "description": "Maximum file size to process (in MB)",
-          "default": "10",
-          "format": "number"
-        }
-      ]
+      }
+    },
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "markitdown-mcp-npx",
+      "version": "0.0.1",
+      "transport": {
+        "type": "stdio"
+      }
     }
   ],
-  "remotes": [],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/github/index.js",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "GitHub Personal Access Token",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    },
+    {
+      "type": "streamable-http",
+      "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/filesystem/index.js",
+      "headers": []
+    }
+  ],
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
-      "tool": "enterprise-registry",
+      "tool": "akerbp-enterprise-registry",
       "version": "1.0.0",
       "build_info": {
         "maintainer": "AkerBP IT Department",
-        "contact": "admin@AkerBP.com",
+        "contact": "it-support@akerbp.com", 
+        "mcp_gateway": "mcp.akerbp.com",
+        "sso_integration": "AkerBP Azure AD",
         "timestamp": "2025-10-31T00:00:00Z",
-        "environment": "enterprise"
+        "environment": "akerbp-production",
+        "compliance": "ISO-27001, SOC-2",
+        "data_residency": "Norway/EU"
       }
     }
   }
