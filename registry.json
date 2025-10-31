@@ -1,0 +1,15 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/registry.schema.json",
+  "version": "1.0.0",
+  "servers": [
+    {
+      "id": "markdownify-mcp",
+      "name": "Markdownify MCP Server",
+      "description": "Convert documents & web content to Markdown format via MCP.",
+      "url": "https://raw.githubusercontent.com/AkerBP/markdownify-mcp/main/mcp.json",
+      "contact": {
+        "email": "admin@AkerBP.com"
+      }
+    }
+  ]
+}
