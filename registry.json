@@ -2,7 +2,7 @@
   "metadata": {
     "version": "1.0",
     "formatVersion": "2024-01-01",
-    "count": 2,
+    "count": 3,
     "nextCursor": null
   },
   "servers": [
@@ -60,6 +60,35 @@
           {
             "type": "http",
             "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/filesystem"
+          }
+        ]
+      }
+    },
+    {
+      "_meta": {
+        "io.modelcontextprotocol.registry/official": {
+          "status": "active",
+          "publishedAt": "2025-11-02T00:00:00Z",
+          "isLatest": true
+        }
+      },
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2024-11-05/server.schema.json",
+        "name": "io.azure.modelcontextprotocol/server-aks",
+        "description": "MCP server for Azure Kubernetes Service (AKS) cluster management and operations.",
+        "version": "1.0.0",
+        "packages": [
+          {
+            "registryType": "npm",
+            "identifier": "@modelcontextprotocol/server-aks",
+            "version": "1.0.0",
+            "transport": { "type": "stdio" }
+          }
+        ],
+        "remotes": [
+          {
+            "type": "http",
+            "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/aks"
           }
         ]
       }
