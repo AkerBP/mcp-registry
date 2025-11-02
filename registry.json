@@ -74,13 +74,13 @@
       },
       "server": {
         "$schema": "https://static.modelcontextprotocol.io/schemas/2024-11-05/server.schema.json",
-        "name": "io.azure.modelcontextprotocol/server-aks",
-        "description": "MCP server for Azure Kubernetes Service (AKS) cluster management and operations.",
+        "name": "io.azure.modelcontextprotocol/server-azure",
+        "description": "Official Azure MCP server for Azure cloud services management and operations.",
         "version": "1.0.0",
         "packages": [
           {
             "registryType": "npm",
-            "identifier": "@modelcontextprotocol/server-aks",
+            "identifier": "@modelcontextprotocol/server-azure",
             "version": "1.0.0",
             "transport": { "type": "stdio" }
           }
@@ -88,7 +88,7 @@
         "remotes": [
           {
             "type": "http",
-            "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/aks"
+            "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/azure"
           }
         ]
       }
