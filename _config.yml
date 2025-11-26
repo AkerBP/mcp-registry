@@ -1,14 +1,13 @@
 # GitHub Pages configuration for MCP Registry
 # This enables GitHub Pages and ensures proper routing for the API endpoints
 
-# Use the default GitHub Pages theme (minimal)
-theme: jekyll-theme-minimal
-
 # Include these directories in the build
 include:
   - v0.1
   - v0
   - registry.json
+  - app.py
+  - requirements.txt
 
 # Exclude unnecessary files
 exclude:
@@ -16,3 +15,15 @@ exclude:
   - node_modules
   - .git
   - .gitignore
+  - api
+
+# Disable Jekyll processing for certain paths to serve files as-is
+defaults:
+  - scope:
+      path: "v0"
+    values:
+      layout: none
+  - scope:
+      path: "v0.1"
+    values:
+      layout: none
