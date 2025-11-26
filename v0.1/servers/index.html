@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="application/json">
-</head>
-<body>
-<script>
-// Serve JSON directly, ignoring query parameters
-const servers = {
+---
+layout: none
+---
+{
   "data": [
     {
       "name": "github",
@@ -57,11 +51,4 @@ const servers = {
     }
   ],
   "total": 2
-};
-
-// Set content type and output JSON
-document.contentType = "application/json";
-document.write('<pre>' + JSON.stringify(servers, null, 2) + '</pre>');
-</script>
-</body>
-</html>
+}
