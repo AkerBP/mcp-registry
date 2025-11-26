@@ -6,20 +6,18 @@ This guide explains how to configure GitHub Secrets for automatic deployment to 
 
 Go to your GitHub repository → Settings → Secrets and variables → Actions → New repository secret
 
-Add the following secrets:
+Add the following secret:
 
-### 1. ACR_LOGIN_SERVER
-**Value:** Your ACR login server URL (e.g., `akerbpacr.azurecr.io`)
-
-Example: `akerbpnitro.azurecr.io` or `akerbp.azurecr.io`
-
-### 2. ACR_PASSWORD
+### ACR_PASSWORD (Required)
 **Value:** `Adb68Hg0UzQ+bIjFyi=0jGIgwqk0AOja`
 
-### 3. AZURE_RESOURCE_GROUP (Optional - for ACI deployment)
+**Note:** The ACR login server (`hubnitroplatformacr.azurecr.io`) and username (`helm-nitro-token`) are already configured in the workflow.
 **Value:** Your Azure resource group name (e.g., `rg-mcp-registry`)
 
-### 4. Azure Service Principal (Optional - for ACI deployment)
+### AZURE_RESOURCE_GROUP (Optional - for ACI deployment)
+**Value:** Your Azure resource group name (e.g., `rg-mcp-registry`)
+
+### Azure Service Principal (Optional - for ACI deployment)
 
 If you want automatic deployment to Azure Container Instances, also add:
 
@@ -51,8 +49,8 @@ Then you or your IT team can manually deploy using:
 az container create \
   --resource-group <your-rg> \
   --name mcp-registry \
-  --image <your-acr>.azurecr.io/mcp-registry:latest \
-  --registry-login-server <your-acr>.azurecr.io \
+  --image hubnitroplatformacr.azurecr.io/mcp-registry:latest \
+  --registry-login-server hubnitroplatformacr.azurecr.io \
   --registry-username helm-nitro-token \
   --registry-password "Adb68Hg0UzQ+bIjFyi=0jGIgwqk0AOja" \
   --dns-name-label mcp-registry-akerbp \
@@ -78,10 +76,9 @@ Example: `http://mcp-registry-akerbp.westeurope.azurecontainer.io:8000`
 
 ## Quick Setup Steps
 
-1. Find your ACR name (ask your IT team or check Azure Portal)
-2. Add `ACR_LOGIN_SERVER` secret (e.g., `akerbpnitro.azurecr.io`)
-3. Add `ACR_PASSWORD` secret: `Adb68Hg0UzQ+bIjFyi=0jGIgwqk0AOja`
-4. Push a commit to trigger the workflow
-5. Check the Actions tab to see the build progress
+1. ✅ **ACR configured:** `hubnitroplatformacr.azurecr.io`
+2. Add `ACR_PASSWORD` secret: `Adb68Hg0UzQ+bIjFyi=0jGIgwqk0AOja`
+3. Push a commit to trigger the workflow
+4. Check the Actions tab to see the build progress
 
 That's it! Your MCP registry will automatically build and deploy to ACR.

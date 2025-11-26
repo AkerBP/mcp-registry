@@ -47,19 +47,17 @@ docker-compose down
 
 ### 3. Push to Azure Container Registry
 
-**Note:** Replace `<your-acr-name>` with your actual ACR name (e.g., `akerbpacr.azurecr.io`)
-
 ```powershell
 # Login to ACR
-docker login <your-acr-name>.azurecr.io -u helm-nitro-token
+docker login hubnitroplatformacr.azurecr.io -u helm-nitro-token
 
 # When prompted, paste the password: Adb68Hg0UzQ+bIjFyi=0jGIgwqk0AOja
 
 # Tag the image for ACR
-docker tag mcp-registry:latest <your-acr-name>.azurecr.io/mcp-registry:latest
+docker tag mcp-registry:latest hubnitroplatformacr.azurecr.io/mcp-registry:latest
 
 # Push to ACR
-docker push <your-acr-name>.azurecr.io/mcp-registry:latest
+docker push hubnitroplatformacr.azurecr.io/mcp-registry:latest
 ```
 
 ### 4. Deploy to Azure Container Instances (ACI)
@@ -69,8 +67,8 @@ docker push <your-acr-name>.azurecr.io/mcp-registry:latest
 az container create `
   --resource-group <your-resource-group> `
   --name mcp-registry `
-  --image <your-acr-name>.azurecr.io/mcp-registry:latest `
-  --registry-login-server <your-acr-name>.azurecr.io `
+  --image hubnitroplatformacr.azurecr.io/mcp-registry:latest `
+  --registry-login-server hubnitroplatformacr.azurecr.io `
   --registry-username helm-nitro-token `
   --registry-password "Adb68Hg0UzQ+bIjFyi=0jGIgwqk0AOja" `
   --dns-name-label mcp-registry-akerbp `
@@ -103,14 +101,14 @@ az webapp create `
   --resource-group <your-resource-group> `
   --plan mcp-registry-plan `
   --name mcp-registry-akerbp `
-  --deployment-container-image-name <your-acr-name>.azurecr.io/mcp-registry:latest
+  --deployment-container-image-name hubnitroplatformacr.azurecr.io/mcp-registry:latest
 
 # Configure ACR credentials
 az webapp config container set `
   --name mcp-registry-akerbp `
   --resource-group <your-resource-group> `
-  --docker-custom-image-name <your-acr-name>.azurecr.io/mcp-registry:latest `
-  --docker-registry-server-url https://<your-acr-name>.azurecr.io `
+  --docker-custom-image-name hubnitroplatformacr.azurecr.io/mcp-registry:latest `
+  --docker-registry-server-url https://hubnitroplatformacr.azurecr.io `
   --docker-registry-server-user helm-nitro-token `
   --docker-registry-server-password "Adb68Hg0UzQ+bIjFyi=0jGIgwqk0AOja"
 
