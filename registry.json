@@ -1,81 +1,16 @@
 {
-  "metadata": {
-    "version": "1.0",
-    "formatVersion": "2024-01-01",
-    "count": 3,
-    "nextCursor": null
-  },
+  "version": "0.1",
   "servers": [
     {
-      "_meta": {
-        "io.modelcontextprotocol.registry/official": {
-          "status": "active",
-          "publishedAt": "2025-09-01T00:00:00Z",
-          "isLatest": true
+      "id": "github",
+      "name": "GitHub MCP Server",
+      "description": "GitHub repository management MCP server",
+      "endpoints": [
+        {
+          "type": "http",
+          "url": "https://api.githubcopilot.com/mcp/"
         }
-      },
-      "server": {
-        "$schema": "https://static.modelcontextprotocol.io/schemas/2024-11-05/server.schema.json",
-        "name": "io.github.modelcontextprotocol/server-github",
-        "description": "Official GitHub MCP server for repository management, issues, and pull requests.",
-        "version": "1.0.0",
-        "packages": [
-          {
-            "registryType": "npm",
-            "identifier": "@modelcontextprotocol/server-github",
-            "version": "1.0.0",
-            "transport": { "type": "stdio" }
-          }
-        ],
-        "remotes": [
-          {
-            "type": "http",
-            "url": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/src/github"
-          }
-        ]
-      }
-    },
-    {
-      "_meta": {
-        "io.modelcontextprotocol.registry/official": {
-          "status": "active",
-          "publishedAt": "2025-11-10T00:00:00Z",
-          "isLatest": true
-        }
-      },
-      "server": {
-        "$schema": "https://static.modelcontextprotocol.io/schemas/2024-11-05/server.schema.json",
-        "name": "microsoft.docs.mcp",
-        "description": "Microsoft Docs MCP server",
-        "version": "1.0.0",
-        "remotes": [
-          {
-            "type": "http",
-            "url": "https://learn.microsoft.com/api/mcp"
-          }
-        ]
-      }
-    },
-    {
-      "_meta": {
-        "io.modelcontextprotocol.registry/official": {
-          "status": "active",
-          "publishedAt": "2025-11-10T00:00:00Z",
-          "isLatest": true
-        }
-      },
-      "server": {
-        "$schema": "https://static.modelcontextprotocol.io/schemas/2024-11-05/server.schema.json",
-        "name": "github",
-        "description": "GitHub MCP server",
-        "version": "1.0.0",
-        "remotes": [
-          {
-            "type": "http",
-            "url": "https://api.githubcopilot.com/mcp/"
-          }
-        ]
-      }
+      ]
     }
   ]
 }
