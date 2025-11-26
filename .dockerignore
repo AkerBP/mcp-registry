@@ -1,0 +1,42 @@
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Node modules (if any)
+node_modules/
+
+# Config files not needed in container
+.env
+docker-compose.yml
+
+# GitHub and Vercel specific
+.github/
+api/
+vercel.json
+_config.yml
+
+# Static files for GitHub Pages
+v0/
+v0.1/
+registry.json
+validate.js
