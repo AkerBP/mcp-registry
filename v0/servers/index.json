@@ -1,0 +1,36 @@
+{
+  "servers": [
+    {
+      "id": "github",
+      "name": "GitHub MCP Server",
+      "description": "GitHub repository management MCP server",
+      "version": "1.0.0",
+      "author": "GitHub",
+      "endpoints": [
+        {
+          "type": "http",
+          "url": "https://api.githubcopilot.com/mcp/"
+        }
+      ]
+    },
+    {
+      "id": "microsoft.docs.mcp",
+      "name": "Microsoft Docs MCP Server",
+      "description": "Microsoft documentation and learning resources MCP server",
+      "version": "1.0.0",
+      "author": "Microsoft",
+      "endpoints": [
+        {
+          "type": "http",
+          "url": "https://learn.microsoft.com/api/mcp"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "total": 2,
+    "limit": 50,
+    "offset": 0,
+    "hasMore": false
+  }
+}
