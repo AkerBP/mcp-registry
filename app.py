@@ -12,67 +12,60 @@ CORS(app)  # Enable CORS for all routes
 # Load server data
 SERVERS_DATA = [
     {
-        "identifier": {
-            "type": "npm",
-            "value": "@github/mcp-server"
-        },
         "name": "github",
         "displayName": "GitHub MCP Server",
-        "description": "GitHub repository management MCP server",
+        "shortDescription": "GitHub repository management",
+        "description": "GitHub repository management MCP server providing access to repositories, issues, and pull requests",
         "version": "1.0.0",
+        "publisher": {
+            "publisherId": "github",
+            "publisherName": "GitHub",
+            "displayName": "GitHub",
+            "domain": "github.com"
+        },
+        "versions": [
+            {
+                "version": "1.0.0",
+                "lastUpdated": "2024-11-28T00:00:00Z"
+            }
+        ],
         "categories": ["Tools"],
         "tags": ["github", "repository", "git"],
-        "publisher": {
-            "name": "GitHub",
-            "displayName": "GitHub",
-            "url": "https://github.com"
-        },
-        "repository": {
-            "type": "git",
-            "url": "https://github.com/github/mcp-server"
-        },
-        "homepage": "https://github.com/github/mcp-server",
-        "license": "MIT",
-        "icon": "https://github.com/favicon.ico",
-        "configuration": {
-            "type": "stdio",
-            "command": "npx",
-            "args": ["-y", "@github/mcp-server"]
-        }
+        "statistics": [
+            {"statisticName": "install", "value": 0}
+        ],
+        "releaseDate": "2024-11-28T00:00:00Z"
     },
     {
-        "identifier": {
-            "type": "npm",
-            "value": "@microsoft/docs-mcp-server"
-        },
-        "name": "microsoft.docs.mcp",
+        "name": "microsoft-docs-mcp",
         "displayName": "Microsoft Docs MCP Server",
-        "description": "Microsoft documentation and learning resources MCP server",
+        "shortDescription": "Microsoft documentation",
+        "description": "Microsoft documentation and learning resources MCP server providing access to technical documentation",
         "version": "1.0.0",
+        "publisher": {
+            "publisherId": "microsoft",
+            "publisherName": "Microsoft",
+            "displayName": "Microsoft Corporation",
+            "domain": "microsoft.com"
+        },
+        "versions": [
+            {
+                "version": "1.0.0",
+                "lastUpdated": "2024-11-28T00:00:00Z"
+            }
+        ],
         "categories": ["Documentation"],
         "tags": ["microsoft", "docs", "documentation", "learning"],
-        "publisher": {
-            "name": "Microsoft",
-            "displayName": "Microsoft Corporation",
-            "url": "https://microsoft.com"
-        },
-        "repository": {
-            "type": "git",
-            "url": "https://github.com/microsoft/docs-mcp-server"
-        },
-        "homepage": "https://learn.microsoft.com",
-        "license": "MIT",
-        "icon": "https://microsoft.com/favicon.ico",
-        "configuration": {
-            "type": "stdio",
-            "command": "npx",
-            "args": ["-y", "@microsoft/docs-mcp-server"]
-        }
+        "statistics": [
+            {"statisticName": "install", "value": 0}
+        ],
+        "releaseDate": "2024-11-28T00:00:00Z"
     }
 ]
 
 
 @app.route('/v0.1/servers', methods=['GET', 'OPTIONS'])
+@app.route('/v0.1/servers/', methods=['GET', 'OPTIONS'])
 def v01_servers():
     """Handle v0.1 servers endpoint"""
     if request.method == 'OPTIONS':
@@ -90,14 +83,22 @@ def v01_servers():
     total = len(SERVERS_DATA)
     paginated_servers = SERVERS_DATA[offset:offset + limit]
     
+    # Match VS Code Extension Gallery API format
     response = {
-        "servers": paginated_servers,
-        "pagination": {
-            "total": total,
-            "limit": limit,
-            "offset": offset,
-            "hasMore": (offset + limit) < total
-        }
+        "results": [
+            {
+                "extensions": paginated_servers,
+                "pagingToken": None,
+                "resultMetadata": [
+                    {
+                        "metadataType": "ResultCount",
+                        "metadataItems": [
+                            {"name": "TotalCount", "count": total}
+                        ]
+                    }
+                ]
+            }
+        ]
     }
     
     return jsonify(response), 200, {
@@ -106,6 +107,7 @@ def v01_servers():
 
 
 @app.route('/v0/servers', methods=['GET', 'OPTIONS'])
+@app.route('/v0/servers/', methods=['GET', 'OPTIONS'])
 def v0_servers():
     """Handle v0 servers endpoint (fallback)"""
     if request.method == 'OPTIONS':
@@ -123,14 +125,22 @@ def v0_servers():
     total = len(SERVERS_DATA)
     paginated_servers = SERVERS_DATA[offset:offset + limit]
     
+    # Match VS Code Extension Gallery API format
     response = {
-        "servers": paginated_servers,
-        "pagination": {
-            "total": total,
-            "limit": limit,
-            "offset": offset,
-            "hasMore": (offset + limit) < total
-        }
+        "results": [
+            {
+                "extensions": paginated_servers,
+                "pagingToken": None,
+                "resultMetadata": [
+                    {
+                        "metadataType": "ResultCount",
+                        "metadataItems": [
+                            {"name": "TotalCount", "count": total}
+                        ]
+                    }
+                ]
+            }
+        ]
     }
     
     return jsonify(response), 200, {
