@@ -80,8 +80,11 @@ def v01_servers():
     total = len(SERVERS_DATA)
     paginated_servers = SERVERS_DATA[offset:offset + limit]
     
-    # Return array of servers matching MCP Server JSON Schema
-    return jsonify(paginated_servers), 200, {
+    # Return servers wrapped in object (MCP registry format)
+    response_data = {
+        "servers": paginated_servers
+    }
+    return jsonify(response_data), 200, {
         'Content-Type': 'application/json; charset=utf-8'
     }
 
@@ -105,8 +108,11 @@ def v0_servers():
     total = len(SERVERS_DATA)
     paginated_servers = SERVERS_DATA[offset:offset + limit]
     
-    # Return array of servers matching MCP Server JSON Schema
-    return jsonify(paginated_servers), 200, {
+    # Return servers wrapped in object (MCP registry format)
+    response_data = {
+        "servers": paginated_servers
+    }
+    return jsonify(response_data), 200, {
         'Content-Type': 'application/json; charset=utf-8'
     }
 
