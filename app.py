@@ -103,18 +103,29 @@ def v0_servers():
     }
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'OPTIONS'])
 def index():
-    """Root endpoint with API information"""
-    return jsonify({
-        "name": "AkerBP MCP Registry",
-        "version": "1.0.0",
-        "endpoints": {
-            "v0.1": "/v0.1/servers",
-            "v0": "/v0/servers"
-        },
-        "documentation": "https://github.com/AkerBP/mcp-registry"
-    })
+    """Root endpoint - return servers list for MCP registry"""
+    if request.method == 'OPTIONS':
+        response = jsonify({})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', '*')
+        response.headers.add('Access-Control-Allow-Methods', '*')
+        return response, 200
+    
+    # Return servers at root level
+    return jsonify({"servers": SERVERS_DATA}), 200, {
+        'Content-Type': 'application/json; charset=utf-8'
+    }
+
+
+@app.route('/servers.json', methods=['GET'])
+@app.route('/servers', methods=['GET'])
+def servers_json():
+    """Return servers in standard JSON format"""
+    return jsonify({"servers": SERVERS_DATA}), 200, {
+        'Content-Type': 'application/json; charset=utf-8'
+    }
 
 
 @app.route('/health', methods=['GET'])
