@@ -1,17 +1,18 @@
 """
 MCP Registry API Server
 Implements the official MCP v0.1 Registry Specification
+See: https://registry.modelcontextprotocol.io/docs
 See: https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-mcp-usage/configure-mcp-registry
 """
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # Load server data - using official MCP Server JSON Schema format
-# See: https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json
 SERVERS_DATA = [
     {
         "name": "io.github/mcp-server",
@@ -50,6 +51,23 @@ SERVERS_DATA = [
 # Create a map for easier lookups by server name
 SERVERS_BY_NAME = {server["name"]: server for server in SERVERS_DATA}
 
+# Current timestamp for metadata
+CURRENT_TIME = datetime.utcnow().isoformat() + "Z"
+
+
+def wrap_server_response(server):
+    """Wrap a server in the ServerResponse format with metadata"""
+    return {
+        "server": server,
+        "_meta": {
+            "io.modelcontextprotocol.registry/official": {
+                "status": "active",
+                "publishedAt": CURRENT_TIME,
+                "isLatest": True
+            }
+        }
+    }
+
 
 def add_cors_headers(response):
     """Add required CORS headers to response"""
@@ -65,8 +83,37 @@ def v01_servers():
     if request.method == 'OPTIONS':
         return add_cors_headers(jsonify({})), 200
     
-    # Return all servers
-    response = jsonify({"servers": SERVERS_DATA})
+    # Get pagination parameters
+    limit = request.args.get('limit', default=50, type=int)
+    cursor = request.args.get('cursor', default=None, type=str)
+    
+    # Simple cursor-based pagination
+    start_index = 0
+    if cursor:
+        # Find the server by name and start after it
+        for i, server in enumerate(SERVERS_DATA):
+            if server["name"] == cursor:
+                start_index = i + 1
+                break
+    
+    # Apply pagination
+    paginated_servers = SERVERS_DATA[start_index:start_index + limit]
+    wrapped_servers = [wrap_server_response(server) for server in paginated_servers]
+    
+    # Determine next cursor
+    next_cursor = None
+    if start_index + limit < len(SERVERS_DATA):
+        next_cursor = SERVERS_DATA[start_index + limit - 1]["name"]
+    
+    response_data = {
+        "servers": wrapped_servers,
+        "metadata": {
+            "count": len(wrapped_servers),
+            "nextCursor": next_cursor
+        }
+    }
+    
+    response = jsonify(response_data)
     return add_cors_headers(response), 200
 
 
@@ -81,7 +128,7 @@ def v01_server_latest(server_name):
         return add_cors_headers(jsonify({"error": "Server not found"})), 404
     
     server = SERVERS_BY_NAME[server_name]
-    response = jsonify(server)
+    response = jsonify(wrap_server_response(server))
     return add_cors_headers(response), 200
 
 
@@ -101,7 +148,7 @@ def v01_server_version(server_name, version):
     if server.get("version") != version:
         return add_cors_headers(jsonify({"error": "Version not found"})), 404
     
-    response = jsonify(server)
+    response = jsonify(wrap_server_response(server))
     return add_cors_headers(response), 200
 
 
