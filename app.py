@@ -9,57 +9,54 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# Load server data
+# Load server data - using official MCP Server JSON Schema format
+# See: https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json
 SERVERS_DATA = [
     {
-        "name": "github",
-        "displayName": "GitHub MCP Server",
-        "shortDescription": "GitHub repository management",
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+        "name": "io.github/mcp-server",
         "description": "GitHub repository management MCP server providing access to repositories, issues, and pull requests",
         "version": "1.0.0",
-        "publisher": {
-            "publisherId": "github",
-            "publisherName": "GitHub",
-            "displayName": "GitHub",
-            "domain": "github.com"
+        "websiteUrl": "https://github.com/modelcontextprotocol/servers",
+        "repository": {
+            "url": "https://github.com/modelcontextprotocol/servers",
+            "source": "github",
+            "id": "github-repo-id-123"
         },
-        "versions": [
+        "packages": [
             {
+                "registryType": "npm",
+                "registryBaseUrl": "https://registry.npmjs.org",
+                "identifier": "@modelcontextprotocol/server-github",
                 "version": "1.0.0",
-                "lastUpdated": "2024-11-28T00:00:00Z"
+                "transport": {
+                    "type": "stdio"
+                }
             }
-        ],
-        "categories": ["Tools"],
-        "tags": ["github", "repository", "git"],
-        "statistics": [
-            {"statisticName": "install", "value": 0}
-        ],
-        "releaseDate": "2024-11-28T00:00:00Z"
+        ]
     },
     {
-        "name": "microsoft-docs-mcp",
-        "displayName": "Microsoft Docs MCP Server",
-        "shortDescription": "Microsoft documentation",
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+        "name": "io.microsoft/docs-mcp-server",
         "description": "Microsoft documentation and learning resources MCP server providing access to technical documentation",
         "version": "1.0.0",
-        "publisher": {
-            "publisherId": "microsoft",
-            "publisherName": "Microsoft",
-            "displayName": "Microsoft Corporation",
-            "domain": "microsoft.com"
+        "websiteUrl": "https://learn.microsoft.com",
+        "repository": {
+            "url": "https://github.com/microsoft/docs-mcp",
+            "source": "github",
+            "id": "microsoft-docs-repo-id-456"
         },
-        "versions": [
+        "packages": [
             {
+                "registryType": "npm",
+                "registryBaseUrl": "https://registry.npmjs.org",
+                "identifier": "@microsoft/mcp-server-docs",
                 "version": "1.0.0",
-                "lastUpdated": "2024-11-28T00:00:00Z"
+                "transport": {
+                    "type": "stdio"
+                }
             }
-        ],
-        "categories": ["Documentation"],
-        "tags": ["microsoft", "docs", "documentation", "learning"],
-        "statistics": [
-            {"statisticName": "install", "value": 0}
-        ],
-        "releaseDate": "2024-11-28T00:00:00Z"
+        ]
     }
 ]
 
@@ -83,25 +80,8 @@ def v01_servers():
     total = len(SERVERS_DATA)
     paginated_servers = SERVERS_DATA[offset:offset + limit]
     
-    # Match VS Code Extension Gallery API format
-    response = {
-        "results": [
-            {
-                "extensions": paginated_servers,
-                "pagingToken": None,
-                "resultMetadata": [
-                    {
-                        "metadataType": "ResultCount",
-                        "metadataItems": [
-                            {"name": "TotalCount", "count": total}
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
-    
-    return jsonify(response), 200, {
+    # Return array of servers matching MCP Server JSON Schema
+    return jsonify(paginated_servers), 200, {
         'Content-Type': 'application/json; charset=utf-8'
     }
 
@@ -125,25 +105,8 @@ def v0_servers():
     total = len(SERVERS_DATA)
     paginated_servers = SERVERS_DATA[offset:offset + limit]
     
-    # Match VS Code Extension Gallery API format
-    response = {
-        "results": [
-            {
-                "extensions": paginated_servers,
-                "pagingToken": None,
-                "resultMetadata": [
-                    {
-                        "metadataType": "ResultCount",
-                        "metadataItems": [
-                            {"name": "TotalCount", "count": total}
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
-    
-    return jsonify(response), 200, {
+    # Return array of servers matching MCP Server JSON Schema
+    return jsonify(paginated_servers), 200, {
         'Content-Type': 'application/json; charset=utf-8'
     }
 
