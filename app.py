@@ -1,6 +1,7 @@
 """
 MCP Registry API Server
-A simple Flask server to serve MCP registry with proper API endpoints
+Implements the official MCP v0.1 Registry Specification
+See: https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-mcp-usage/configure-mcp-registry
 """
 
 from flask import Flask, jsonify, request
@@ -46,86 +47,88 @@ SERVERS_DATA = [
     }
 ]
 
+# Create a map for easier lookups by server name
+SERVERS_BY_NAME = {server["name"]: server for server in SERVERS_DATA}
+
+
+def add_cors_headers(response):
+    """Add required CORS headers to response"""
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
+    return response
+
 
 @app.route('/v0.1/servers', methods=['GET', 'OPTIONS'])
-@app.route('/v0.1/servers/', methods=['GET', 'OPTIONS'])
 def v01_servers():
-    """Handle v0.1 servers endpoint"""
+    """GET /v0.1/servers - Returns list of all MCP servers (v0.1 spec)"""
     if request.method == 'OPTIONS':
-        response = jsonify({})
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Headers', '*')
-        response.headers.add('Access-Control-Allow-Methods', '*')
-        return response, 200
+        return add_cors_headers(jsonify({})), 200
     
-    # Get query parameters
-    limit = request.args.get('limit', default=50, type=int)
-    offset = request.args.get('offset', default=0, type=int)
-    
-    # Apply pagination
-    total = len(SERVERS_DATA)
-    paginated_servers = SERVERS_DATA[offset:offset + limit]
-    
-    # Return servers wrapped in object (MCP registry format)
-    response_data = {
-        "servers": paginated_servers
-    }
-    return jsonify(response_data), 200, {
-        'Content-Type': 'application/json; charset=utf-8'
-    }
+    # Return all servers
+    response = jsonify({"servers": SERVERS_DATA})
+    return add_cors_headers(response), 200
 
 
-@app.route('/v0/servers', methods=['GET', 'OPTIONS'])
-@app.route('/v0/servers/', methods=['GET', 'OPTIONS'])
-def v0_servers():
-    """Handle v0 servers endpoint (fallback)"""
+@app.route('/v0.1/servers/<server_name>/versions/latest', methods=['GET', 'OPTIONS'])
+def v01_server_latest(server_name):
+    """GET /v0.1/servers/{serverName}/versions/latest - Returns latest version of specific server"""
     if request.method == 'OPTIONS':
-        response = jsonify({})
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Headers', '*')
-        response.headers.add('Access-Control-Allow-Methods', '*')
-        return response, 200
+        return add_cors_headers(jsonify({})), 200
     
-    # Get query parameters
-    limit = request.args.get('limit', default=50, type=int)
-    offset = request.args.get('offset', default=0, type=int)
+    # Find server by name
+    if server_name not in SERVERS_BY_NAME:
+        return add_cors_headers(jsonify({"error": "Server not found"})), 404
     
-    # Apply pagination
-    total = len(SERVERS_DATA)
-    paginated_servers = SERVERS_DATA[offset:offset + limit]
+    server = SERVERS_BY_NAME[server_name]
+    response = jsonify(server)
+    return add_cors_headers(response), 200
+
+
+@app.route('/v0.1/servers/<server_name>/versions/<version>', methods=['GET', 'OPTIONS'])
+def v01_server_version(server_name, version):
+    """GET /v0.1/servers/{serverName}/versions/{version} - Returns specific server version"""
+    if request.method == 'OPTIONS':
+        return add_cors_headers(jsonify({})), 200
     
-    # Return servers wrapped in object (MCP registry format)
-    response_data = {
-        "servers": paginated_servers
-    }
-    return jsonify(response_data), 200, {
-        'Content-Type': 'application/json; charset=utf-8'
-    }
+    # Find server by name
+    if server_name not in SERVERS_BY_NAME:
+        return add_cors_headers(jsonify({"error": "Server not found"})), 404
+    
+    server = SERVERS_BY_NAME[server_name]
+    
+    # Check if requested version matches
+    if server.get("version") != version:
+        return add_cors_headers(jsonify({"error": "Version not found"})), 404
+    
+    response = jsonify(server)
+    return add_cors_headers(response), 200
 
 
 @app.route('/', methods=['GET', 'OPTIONS'])
 def index():
-    """Root endpoint - return servers list for MCP registry"""
+    """Root endpoint - returns API info"""
     if request.method == 'OPTIONS':
-        response = jsonify({})
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Headers', '*')
-        response.headers.add('Access-Control-Allow-Methods', '*')
-        return response, 200
+        return add_cors_headers(jsonify({})), 200
     
-    # Return servers at root level
-    return jsonify({"servers": SERVERS_DATA}), 200, {
-        'Content-Type': 'application/json; charset=utf-8'
-    }
+    return jsonify({
+        "name": "AkerBP MCP Registry",
+        "version": "1.0.0",
+        "endpoints": {
+            "servers": "/v0.1/servers",
+            "server-latest": "/v0.1/servers/{serverName}/versions/latest",
+            "server-version": "/v0.1/servers/{serverName}/versions/{version}"
+        },
+        "documentation": "https://github.com/AkerBP/mcp-registry"
+    }), 200
 
 
 @app.route('/servers.json', methods=['GET'])
 @app.route('/servers', methods=['GET'])
 def servers_json():
     """Return servers in standard JSON format"""
-    return jsonify({"servers": SERVERS_DATA}), 200, {
-        'Content-Type': 'application/json; charset=utf-8'
-    }
+    response = jsonify({"servers": SERVERS_DATA})
+    return add_cors_headers(response), 200
 
 
 @app.route('/health', methods=['GET'])
