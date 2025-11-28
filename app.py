@@ -12,6 +12,10 @@ CORS(app)  # Enable CORS for all routes
 # Load server data
 SERVERS_DATA = [
     {
+        "identifier": {
+            "type": "npm",
+            "value": "@github/mcp-server"
+        },
         "name": "github",
         "displayName": "GitHub MCP Server",
         "description": "GitHub repository management MCP server",
@@ -20,6 +24,7 @@ SERVERS_DATA = [
         "tags": ["github", "repository", "git"],
         "publisher": {
             "name": "GitHub",
+            "displayName": "GitHub",
             "url": "https://github.com"
         },
         "repository": {
@@ -29,12 +34,17 @@ SERVERS_DATA = [
         "homepage": "https://github.com/github/mcp-server",
         "license": "MIT",
         "icon": "https://github.com/favicon.ico",
-        "remote": {
-            "type": "http",
-            "url": "https://api.githubcopilot.com/mcp/"
+        "configuration": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["-y", "@github/mcp-server"]
         }
     },
     {
+        "identifier": {
+            "type": "npm",
+            "value": "@microsoft/docs-mcp-server"
+        },
         "name": "microsoft.docs.mcp",
         "displayName": "Microsoft Docs MCP Server",
         "description": "Microsoft documentation and learning resources MCP server",
@@ -43,6 +53,7 @@ SERVERS_DATA = [
         "tags": ["microsoft", "docs", "documentation", "learning"],
         "publisher": {
             "name": "Microsoft",
+            "displayName": "Microsoft Corporation",
             "url": "https://microsoft.com"
         },
         "repository": {
@@ -52,9 +63,10 @@ SERVERS_DATA = [
         "homepage": "https://learn.microsoft.com",
         "license": "MIT",
         "icon": "https://microsoft.com/favicon.ico",
-        "remote": {
-            "type": "http",
-            "url": "https://learn.microsoft.com/api/mcp"
+        "configuration": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["-y", "@microsoft/docs-mcp-server"]
         }
     }
 ]
@@ -64,38 +76,66 @@ SERVERS_DATA = [
 def v01_servers():
     """Handle v0.1 servers endpoint"""
     if request.method == 'OPTIONS':
-        return '', 200
+        response = jsonify({})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', '*')
+        response.headers.add('Access-Control-Allow-Methods', '*')
+        return response, 200
     
     # Get query parameters
     limit = request.args.get('limit', default=50, type=int)
     offset = request.args.get('offset', default=0, type=int)
     
     # Apply pagination
+    total = len(SERVERS_DATA)
     paginated_servers = SERVERS_DATA[offset:offset + limit]
     
-    return jsonify({
-        "data": paginated_servers,
-        "total": len(SERVERS_DATA)
-    })
+    response = {
+        "servers": paginated_servers,
+        "pagination": {
+            "total": total,
+            "limit": limit,
+            "offset": offset,
+            "hasMore": (offset + limit) < total
+        }
+    }
+    
+    return jsonify(response), 200, {
+        'Content-Type': 'application/json; charset=utf-8'
+    }
 
 
 @app.route('/v0/servers', methods=['GET', 'OPTIONS'])
 def v0_servers():
     """Handle v0 servers endpoint (fallback)"""
     if request.method == 'OPTIONS':
-        return '', 200
+        response = jsonify({})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', '*')
+        response.headers.add('Access-Control-Allow-Methods', '*')
+        return response, 200
     
     # Get query parameters
     limit = request.args.get('limit', default=50, type=int)
     offset = request.args.get('offset', default=0, type=int)
     
     # Apply pagination
+    total = len(SERVERS_DATA)
     paginated_servers = SERVERS_DATA[offset:offset + limit]
     
-    return jsonify({
-        "data": paginated_servers,
-        "total": len(SERVERS_DATA)
-    })
+    response = {
+        "servers": paginated_servers,
+        "pagination": {
+            "total": total,
+            "limit": limit,
+            "offset": offset,
+            "hasMore": (offset + limit) < total
+        }
+    }
+    
+    return jsonify(response), 200, {
+        'Content-Type': 'application/json; charset=utf-8'
+    }
 
 
 @app.route('/', methods=['GET'])
@@ -115,7 +155,7 @@ def index():
 @app.route('/health', methods=['GET'])
 def health():
     """Health check endpoint"""
-    return jsonify({"status": "healthy"})
+    return jsonify({"status": "healthy"}), 200
 
 
 if __name__ == '__main__':
