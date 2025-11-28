@@ -13,16 +13,9 @@ CORS(app)  # Enable CORS for all routes
 # See: https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json
 SERVERS_DATA = [
     {
-        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
         "name": "io.github/mcp-server",
-        "description": "GitHub repository management MCP server providing access to repositories, issues, and pull requests",
+        "description": "GitHub repository management MCP server",
         "version": "1.0.0",
-        "websiteUrl": "https://github.com/modelcontextprotocol/servers",
-        "repository": {
-            "url": "https://github.com/modelcontextprotocol/servers",
-            "source": "github",
-            "id": "github-repo-id-123"
-        },
         "packages": [
             {
                 "registryType": "npm",
@@ -36,16 +29,9 @@ SERVERS_DATA = [
         ]
     },
     {
-        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
         "name": "io.microsoft/docs-mcp-server",
-        "description": "Microsoft documentation and learning resources MCP server providing access to technical documentation",
+        "description": "Microsoft documentation and learning resources MCP server",
         "version": "1.0.0",
-        "websiteUrl": "https://learn.microsoft.com",
-        "repository": {
-            "url": "https://github.com/microsoft/docs-mcp",
-            "source": "github",
-            "id": "microsoft-docs-repo-id-456"
-        },
         "packages": [
             {
                 "registryType": "npm",
