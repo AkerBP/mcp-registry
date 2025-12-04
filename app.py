@@ -45,6 +45,28 @@ SERVERS_DATA = [
                 }
             }
         ]
+    },
+    {
+        "name": "com.microsoft/docs-mcp",
+        "description": "Microsoft Learn documentation via HTTP remote MCP server",
+        "version": "1.0.0",
+        "remotes": [
+            {
+                "type": "http",
+                "url": "https://learn.microsoft.com/api/mcp"
+            }
+        ]
+    },
+    {
+        "name": "com.github/copilot-mcp",
+        "description": "GitHub Copilot MCP server via HTTP remote",
+        "version": "1.0.0",
+        "remotes": [
+            {
+                "type": "http",
+                "url": "https://api.githubcopilot.com/mcp/"
+            }
+        ]
     }
 ]
 
